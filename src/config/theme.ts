@@ -3,4 +3,5 @@ export const defaultTheme = {
   secondary: "#262D34",
   primaryText: "#F7F7F7",
   secondaryText: "#7A757D",
+  tertiary: "#1E252B",
 };
