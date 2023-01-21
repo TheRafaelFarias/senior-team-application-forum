@@ -12,6 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 100vw;
     overflow-x: hidden;
     background: ${(props) => props.theme.secondary};
+    padding: 1.875rem 2.5rem;
   }
 
   a {
