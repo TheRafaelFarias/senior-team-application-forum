@@ -1,5 +1,7 @@
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
+import ThreadPreview from "@/components/threadPreview";
+import { Div } from "@/styles/globals";
 import Head from "next/head";
 
 export default function Home() {
@@ -11,10 +13,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar />
-      <main>
-        <h1>Teste</h1>
+      <Div flexDirection="row" gapX={1.125}>
         <Sidebar />
-      </main>
+        <Div flexDirection="column" gapY={0.5} style={{ overflow: "hidden" }}>
+          <ThreadPreview />
+          <ThreadPreview />
+          <ThreadPreview />
+        </Div>
+      </Div>
     </>
   );
 }
