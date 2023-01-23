@@ -12,13 +12,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <Div flexDirection="row" gapX={1.125}>
-        <Sidebar />
-        <Div flexDirection="column" gapY={0.5} style={{ overflow: "hidden" }}>
-          <ThreadPreview />
-          <ThreadPreview />
-          <ThreadPreview />
+      <Div flexDirection="column" gapY={1.625}>
+        <Navbar />
+        <Div flexDirection="row" gapX={1.125}>
+          <Sidebar />
+          <Div
+            flexDirection="column"
+            gapY={0.5}
+            style={{ overflow: "hidden", width: "100%" }}
+          >
+            <ThreadPreview />
+            <ThreadPreview />
+            <ThreadPreview />
+          </Div>
         </Div>
       </Div>
     </>
