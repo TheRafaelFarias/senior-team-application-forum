@@ -1,7 +1,7 @@
 import { BreadcrumbItem } from "@/components/breadcrumb/styles";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
-import ThreadPreview from "@/components/threadPreview";
+import TopicPreview from "@/components/topicPreview";
 import { Div } from "@/styles/globals";
 import Head from "next/head";
 
@@ -25,9 +25,13 @@ export default function Home() {
             <Div flexDirection="row" style={{ marginLeft: 20 }}>
               <BreadcrumbItem active>General</BreadcrumbItem>
             </Div>
+            {/* <ThreadPreview />
             <ThreadPreview />
-            <ThreadPreview />
-            <ThreadPreview />
+            <ThreadPreview /> */}
+            <TopicPreview />
+            <TopicPreview />
+            <TopicPreview />
+            <TopicPreview />
           </Div>
         </Div>
       </Div>
