@@ -1,3 +1,4 @@
+import { BreadcrumbItem } from "@/components/breadcrumb/styles";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import ThreadPreview from "@/components/threadPreview";
@@ -21,6 +22,9 @@ export default function Home() {
             gapY={0.5}
             style={{ overflow: "hidden", width: "100%" }}
           >
+            <Div flexDirection="row" style={{ marginLeft: 20 }}>
+              <BreadcrumbItem active>General</BreadcrumbItem>
+            </Div>
             <ThreadPreview />
             <ThreadPreview />
             <ThreadPreview />
