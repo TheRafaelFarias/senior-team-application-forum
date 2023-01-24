@@ -18,7 +18,7 @@ export const ModalContainer = styled.div`
   align-items: center;
   gap: 1.25rem;
   min-width: 600px;
-  min-height: 500px;
+  height: fit-content;
   background-color: ${(props) => props.theme.tertiary};
   border-radius: 1.25rem;
   padding: 2.625rem 2.5rem 2rem;
