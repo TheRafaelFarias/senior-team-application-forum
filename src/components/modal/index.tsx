@@ -6,11 +6,13 @@ import React, {
 } from "react";
 import CreateNewAccountModal from "../modals/createNewAccount";
 import CreateNewThreadModal from "../modals/createNewThread";
+import LoginModal from "../modals/login";
 import { ModalWithBackgroundWrapper } from "./styles";
 
 const MODALS = {
   createNewThread: CreateNewThreadModal,
-  createNewAccount: CreateNewAccountModal
+  createNewAccount: CreateNewAccountModal,
+  login: LoginModal
 };
 
 interface ModalContextProps {
