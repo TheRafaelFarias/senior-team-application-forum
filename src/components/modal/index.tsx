@@ -4,11 +4,13 @@ import React, {
   PropsWithChildren,
   useState,
 } from "react";
+import CreateNewAccountModal from "../modals/createNewAccount";
 import CreateNewThreadModal from "../modals/createNewThread";
 import { ModalWithBackgroundWrapper } from "./styles";
 
 const MODALS = {
   createNewThread: CreateNewThreadModal,
+  createNewAccount: CreateNewAccountModal
 };
 
 interface ModalContextProps {
