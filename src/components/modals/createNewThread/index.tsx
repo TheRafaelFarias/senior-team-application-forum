@@ -15,13 +15,21 @@ const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
       <ModalTitle>Let&apos;s create a new thread</ModalTitle>
       <Div flexDirection="row" gapX={1.625} style={{ width: "100%" }}>
         <Dropdown
+          placeholder="Select a category"
+          secondaryPlaceholder="Click here to see all categories"
           data={["General", "Minecraft Related", "Staff Applications"]}
         />
         <Dropdown
+          placeholder="Select a topic"
+          secondaryPlaceholder="Click to see all category topis"
           data={["General", "Minecraft Related", "Staff Applications"]}
         />
       </Div>
-      <Input />
+      <Input
+        name="Title"
+        placeholder="Title"
+        secondaryPlaceholder="Enter thread title here"
+      />
       <ModalButton>Teste</ModalButton>
     </ModalContainer>
   );
