@@ -11,8 +11,8 @@ const LoginModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
   return (
     <ModalContainer onClick={defaultOnClick}>
       <ModalTitle>Loign in an already existing account</ModalTitle>
-      <Input />
-      <Input />
+      <Input name="email" placeholder="Email" />
+      <Input name="password" placeholder="Password" />
       <ModalButton>Login</ModalButton>
     </ModalContainer>
   );
