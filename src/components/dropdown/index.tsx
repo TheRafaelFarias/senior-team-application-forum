@@ -11,11 +11,15 @@ import {
 } from "./styles";
 
 interface DropdownProps<T extends string> {
+  placeholder: string;
+  secondaryPlaceholder?: string;
   data: Array<T>;
   onClickOption?: (value: T) => void;
 }
 
 const Dropdown = <T extends string>({
+  placeholder,
+  secondaryPlaceholder,
   data,
   onClickOption,
 }: DropdownProps<T>) => {
@@ -33,7 +37,7 @@ const Dropdown = <T extends string>({
           hasSelectedValue={Boolean(selectedOption)}
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         >
-          {selectedOption ?? "Click here to see all categories"}
+          {selectedOption ?? secondaryPlaceholder ?? <span />}
           <FaChevronDown color={defaultTheme.quartiaryText} />
         </DropdownSelectedOption>
         {isDropdownOpen && (
