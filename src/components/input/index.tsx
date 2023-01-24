@@ -1,11 +1,19 @@
 import React from "react";
 import { InputContainer, InputPlaceholder, InputStyled } from "./styles";
 
-const Input: React.FC = () => {
+interface InputProps {
+  name: string
+  placeholder: string;
+  secondaryPlaceholder?: string;
+}
+
+const Input: React.FC<InputProps> = ({ placeholder, secondaryPlaceholder }) => {
   return (
     <InputContainer>
-      <InputPlaceholder>Title</InputPlaceholder>
-      <InputStyled placeholder="Enter thread title here" />
+      <InputPlaceholder>{placeholder}</InputPlaceholder>
+      <InputStyled
+        placeholder={secondaryPlaceholder && "Enter thread title here"}
+      />
     </InputContainer>
   );
 };
