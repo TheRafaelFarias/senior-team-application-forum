@@ -3,6 +3,7 @@ import { GlobalStyle } from "@/styles/globals";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 
+import ModalProvider from "@/components/modal";
 import { Source_Sans_Pro } from "@next/font/google";
 
 export const SourceSansPro = Source_Sans_Pro({
@@ -15,7 +16,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyle fontFamilySrc={SourceSansPro.style.fontFamily} />
-        <Component {...pageProps} />
+        <ModalProvider>
+          <Component {...pageProps} />
+        </ModalProvider>
       </ThemeProvider>
     </>
   );
