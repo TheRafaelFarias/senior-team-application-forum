@@ -22,8 +22,6 @@ export const InputStyled = styled.input`
   color: ${(props) => props.theme.primaryText};
   background: ${(props) => props.theme.secondary};
 
-  cursor: pointer;
-
   &::placeholder {
     color: ${(props) => props.theme.secondaryText};
   }
