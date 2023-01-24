@@ -1,4 +1,3 @@
-import { convertHexToRGB } from "@/helpers/colors";
 import styled, { css } from "styled-components";
 
 export const DropdownContainer = styled.div`
@@ -22,6 +21,7 @@ export const DropdownOptions = styled.div`
 
 export const DropdownDisplayOptions = styled.div`
   position: absolute;
+  z-index: 10;
   top: 100%;
   overflow: hidden;
   display: flex;
@@ -57,8 +57,7 @@ export const DropdownOption = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props) =>
-      convertHexToRGB(props.theme.quartiaryText, 0.2)};
+    background-color: #353c43;
   }
 `;
 
