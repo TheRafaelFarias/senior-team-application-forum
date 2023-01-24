@@ -22,7 +22,7 @@ const Dropdown = <T extends string>({
   const [selectedOption, setSelectedOption] = useState<T | undefined>(
     undefined
   );
-  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
     <DropdownContainer>
