@@ -5,6 +5,7 @@ export const defaultTheme = {
   secondaryText: "#7A757D",
   tertiary: "#1E252B",
   tertiaryText: "#858EAD",
+  quartiaryText: "#9195A3",
   yellow: "#EA942C",
   beige: "#F9DFC0",
 };
