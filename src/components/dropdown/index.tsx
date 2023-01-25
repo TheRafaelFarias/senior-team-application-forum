@@ -30,7 +30,7 @@ const Dropdown = <T extends string>({
 
   return (
     <DropdownContainer>
-      <DropdownPlaceholder>Select a category</DropdownPlaceholder>
+      <DropdownPlaceholder>{placeholder}</DropdownPlaceholder>
       <DropdownOptions>
         <DropdownSelectedOption
           isDropdownOpen={isDropdownOpen}
