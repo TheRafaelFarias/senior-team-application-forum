@@ -1,0 +1,56 @@
+.rdw-editor-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.rdw-editor-toolbar {
+  padding: 18px 20px !important;
+  padding-left: 18px !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top-left-radius: 0.325rem !important;
+  border-top-right-radius: 0.325rem !important;
+  border-bottom-left-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.rdw-inline-wrapper > div:first-child {
+  margin-left: 0px !important;
+  padding-left: 0px !important;
+}
+
+.rdw-option-wrapper {
+  background: transparent !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: 200ms;
+  filter: invert(100%) sepia(0%) saturate(7472%) hue-rotate(114deg)
+    brightness(109%) contrast(97%);
+}
+
+.rdw-option-wrapper:hover {
+  opacity: 0.5;
+}
+
+.rdw-editor-main {
+  border-radius: 0.325rem;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  padding: 10px 20px;
+  max-height: 300px;
+}
+
+.public-DraftEditorPlaceholder-inner {
+  color: #7a757d;
+}
+
+@media (max-width: 768px) {
+  .rdw-editor-toolbar {
+    justify-content: center !important;
+    width: 100%;
+  }
+}
