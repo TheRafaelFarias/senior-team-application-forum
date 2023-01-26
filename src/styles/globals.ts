@@ -38,9 +38,9 @@ export const Div = styled.div<{
   display: flex;
   flex-direction: ${(props) => props.flexDirection};
 
-  ${(props) => props.gapY && `row-gap: ${props.gapY}rem`}
-  ${(props) => props.gapX && `column-gap: ${props.gapX}rem`}
-  ${(props) => props.alignItems && `align-items: ${props.alignItems}`}
+  ${(props) => props.gapY && `row-gap: ${props.gapY}rem;`}
+  ${(props) => props.gapX && `column-gap: ${props.gapX}rem;`}
+  ${(props) => props.alignItems && `align-items: ${props.alignItems};`}
   ${(props) =>
-    props.justifyContent && `justify-content: ${props.justifyContent}`}
+    props.justifyContent && `justify-content: ${props.justifyContent};`}
 `;
