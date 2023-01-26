@@ -1,5 +1,11 @@
 import styled, { css } from "styled-components";
 
+export const BreadcrumbItemContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
 export const BreadcrumbItem = styled.p<{
   active?: boolean;
 }>`
@@ -18,4 +24,9 @@ export const BreadcrumbItem = styled.p<{
         transform: translateY(1px);
       }
     `}
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    white-space: nowrap;
+  }
 `;
