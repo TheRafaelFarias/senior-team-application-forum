@@ -16,6 +16,10 @@ export const GlobalStyle = createGlobalStyle<{
     overflow-x: hidden;
     padding: 1.875rem 2.5rem;
     background: ${(props) => props.theme.tertiary};
+    
+    @media (max-width: 768px) {
+      padding: 1.875rem 1rem;
+    }
   }
 
   a {
