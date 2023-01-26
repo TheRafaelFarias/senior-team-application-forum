@@ -9,9 +9,12 @@ import {
 } from "@/components/modal/styles";
 import RichTextInput from "@/components/richtextinput";
 import { getAllCategoriesWithTopics } from "@/services/category/getAllCategoriesWithTopics";
+import { createNewThread } from "@/services/thread/createNewThread";
 import { Div } from "@/styles/globals";
 import { Category } from "@/types/category";
 import { TopicWithoutThread } from "@/types/topic";
+import { convertToRaw, EditorState } from "draft-js";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { DropdownsContainer } from "../createNewAccount/styles";
@@ -22,6 +25,9 @@ interface ThreadFormValues {
 
 const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
   const { control, handleSubmit } = useForm<ThreadFormValues>();
+  const router = useRouter();
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [selectedCategory, setSelectedCategory] = useState<
     Category | undefined
   >(undefined);
@@ -38,6 +44,30 @@ const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
       setCategoriesWithTopics(categoriesWithItsTopics);
     })();
   }, []);
+
+  const handleCreateNewThreadSubmit = async (values: ThreadFormValues) => {
+    if (selectedCategory == undefined || selectedTopic == undefined) return;
+
+    const thread = {
+      category: selectedCategory,
+      topic: selectedTopic,
+      ...values,
+      content: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
+    };
+
+    try {
+      const threadDocument = await createNewThread(thread);
+      router.replace({
+        pathname: "/[categoryId]/[topicId]/[threadId]",
+        query: {
+          categoryId: thread.category.id,
+          topicId: thread.topic.id,
+          threadId: threadDocument?.id,
+        },
+      });
+    } catch (error) {}
+  };
+
   return (
     <ModalContainer onClick={defaultOnClick}>
       <ModalTitle>Let&apos;s create a new thread</ModalTitle>
@@ -81,9 +111,14 @@ const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
       />
       <Div flexDirection="column" gapY={1} style={{ width: "100%" }}>
         <InputPlaceholder>Content</InputPlaceholder>
-        <RichTextInput />
+        <RichTextInput
+          editorState={editorState}
+          setEditorState={setEditorState}
+        />
       </Div>
-      <ModalButton>Submit</ModalButton>
+      <ModalButton onClick={handleSubmit(handleCreateNewThreadSubmit)}>
+        Submit
+      </ModalButton>
     </ModalContainer>
   );
 };

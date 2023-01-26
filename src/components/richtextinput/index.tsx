@@ -1,7 +1,7 @@
 import { defaultTheme } from "@/config/theme";
-import { convertToRaw, EditorState } from "draft-js";
+import { EditorState } from "draft-js";
 import dynamic from "next/dynamic";
-import React, { MouseEvent, useState } from "react";
+import React from "react";
 import { EditorProps } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 const Editor = dynamic<EditorProps>(
@@ -9,15 +9,10 @@ const Editor = dynamic<EditorProps>(
   { ssr: false }
 );
 
-const RichTextInput: React.FC = () => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
-  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const raw = convertToRaw(editorState.getCurrentContent());
-    console.log(raw);
-  };
-
+const RichTextInput: React.FC<{
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+}> = ({ editorState, setEditorState }) => {
   return (
     <div style={{ width: "100%" }}>
       <Editor
