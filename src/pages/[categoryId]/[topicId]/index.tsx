@@ -1,18 +1,29 @@
-import { BreadcrumbItem } from "@/components/breadcrumb/styles";
+import {
+  BreadcrumbItem,
+  BreadcrumbItemContainer,
+} from "@/components/breadcrumb/styles";
+import { useModal } from "@/components/modal/hooks/useModal";
+import { ModalButton } from "@/components/modal/styles";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import ThreadPreview from "@/components/threadPreview";
+import { getSpecificTopicWithCategoryAndAllThreadsPreview } from "@/services/topic/getSpecificTopicWithCategory";
 import { Div } from "@/styles/globals";
+import { CreateNewThreadOrCommentText } from "@/styles/thread";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import React from "react";
+import Link from "next/link";
 
-const TopicInformations: React.FC = () => {
+const TopicInformations = ({
+  topic,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const { changeCurrentModal } = useModal();
+
   return (
     <>
       <Head>
-        <title>Announcements Topic - Junior Team Forums</title>
+        <title>{`${topic.name} Topic - Junior Team Forums`}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Div flexDirection="column" gapY={1.625}>
@@ -24,23 +35,74 @@ const TopicInformations: React.FC = () => {
             gapY={2}
             style={{ overflow: "hidden", width: "100%" }}
           >
-            <Div flexDirection="row" style={{ marginLeft: 20 }}>
-              <BreadcrumbItem>General</BreadcrumbItem>
-              <BreadcrumbItem active>Announcements</BreadcrumbItem>
-            </Div>
+            <BreadcrumbItemContainer>
+              <Link
+                href={{
+                  pathname: "/[categoryId]",
+                  query: {
+                    categoryId: topic.category.id,
+                  },
+                }}
+              >
+                <BreadcrumbItem>{topic.category.name}</BreadcrumbItem>
+              </Link>
+              <Link
+                href={{
+                  pathname: "/[categoryId]/[topicId]",
+                  query: {
+                    categoryId: topic.category.id,
+                    topicId: topic.id,
+                  },
+                }}
+              >
+                <BreadcrumbItem active>{topic.name}</BreadcrumbItem>
+              </Link>
+            </BreadcrumbItemContainer>
             <Div flexDirection="column" gapY={0.5}>
-              <ThreadPreview />
-              <ThreadPreview />
-              <ThreadPreview />
-              <ThreadPreview />
-              <ThreadPreview />
-              <ThreadPreview />
+              {topic.threads.length == 0 && (
+                <Div flexDirection="column" gapY={1} alignItems="center">
+                  <CreateNewThreadOrCommentText>
+                    This topic still doesn&apos;t have a thread
+                  </CreateNewThreadOrCommentText>
+                  <ModalButton
+                    onClick={() => changeCurrentModal("createNewThread")}
+                  >
+                    Create new thread
+                  </ModalButton>
+                </Div>
+              )}
+              {topic.threads.map((threadPreview) => (
+                <ThreadPreview
+                  key={threadPreview.id}
+                  threadPreview={threadPreview}
+                  categoryId={topic.category.id}
+                  topicId={topic.id}
+                />
+              ))}
             </Div>
           </Div>
         </Div>
       </Div>
     </>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const { categoryId, topicId } = context.query;
+
+  const topicInformation =
+    await getSpecificTopicWithCategoryAndAllThreadsPreview(
+      categoryId?.toString()!,
+      topicId?.toString()!
+    );
+
+  return {
+    props: {
+      topic: topicInformation,
+    },
+  };
 };
 
 export default TopicInformations;
