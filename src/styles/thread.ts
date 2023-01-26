@@ -17,3 +17,10 @@ export const ThreadAndCommentsDivider = styled.div`
   margin: 1.875rem 0px;
   background-color: ${(props) => props.theme.tertiaryText};
 `;
+
+export const CreateNewThreadOrCommentText = styled.p`
+  color: ${(props) => props.theme.primaryText};
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+`;

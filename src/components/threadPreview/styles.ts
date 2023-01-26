@@ -1,7 +1,8 @@
 import { Div } from "@/styles/globals";
 import styled from "styled-components";
 
-export const ThreadPreviewContainer = styled.div`
+export const ThreadPreviewContainer = styled.button`
+  border: none;
   display: flex;
   gap: 1.25rem;
   padding: 1.25rem;
@@ -10,16 +11,19 @@ export const ThreadPreviewContainer = styled.div`
   font-size: 0.725rem;
   white-space: nowrap;
   overflow: hidden;
+  cursor: pointer;
   color: ${(props) => props.theme.primaryText};
   height: fit-content;
   background-color: ${(props) => props.theme.secondary};
 
   & > div:last-of-type {
     overflow: hidden;
+    height: 100%;
   }
 
   & > * > h1 {
     overflow: hidden;
+    text-align: start;
     text-overflow: ellipsis;
   }
 `;
