@@ -27,9 +27,26 @@ const ThreadInformations = ({
   const router = useRouter();
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-import React from "react";
 
-const ThreadInformations: React.FC = () => {
+  const handleNewCommentSubmition = async () => {
+    const content = JSON.stringify(
+      convertToRaw(editorState.getCurrentContent())
+    );
+
+    try {
+      const document = await addCommentToAThread(
+        {
+          categoryId: thread.category.id,
+          topicId: thread.topic.id,
+          threadId: thread.id,
+        },
+        content
+      );
+
+      router.reload();
+    } catch (error) {}
+  };
+
   return (
     <>
       <Head>
@@ -84,17 +101,47 @@ const ThreadInformations: React.FC = () => {
             <Div flexDirection="column" gapY={0.5}>
               <Div flexDirection="column" gapY={1.875}>
                 <Thread thread={thread} />
-                <Thread />
-                <AddNewThreadCommentButton>
+                <AddNewThreadCommentButton
+                  onClick={() => setIsEditorOpen(true)}
+                >
                   Add a new comment
                 </AddNewThreadCommentButton>
               </Div>
 
               <ThreadAndCommentsDivider />
 
+              {isEditorOpen && (
+                <>
+                  <ThreadNewCommentTitle>
+                    Add a comment to this thread
+                  </ThreadNewCommentTitle>
+                  <RichTextInput
+                    editorState={editorState}
+                    setEditorState={setEditorState}
+                  />
+                  <AddNewThreadCommentButton
+                    onClick={handleNewCommentSubmition}
+                    style={{ alignSelf: "center" }}
+                  >
+                    Comment
+                  </AddNewThreadCommentButton>
+
+                  <ThreadAndCommentsDivider />
+                </>
+              )}
+
               <Div flexDirection="column" gapY={1}>
-                <Thread />
-                <Thread />
+                {thread.comments.length >= 1 &&
+                  thread.comments.map((comment) => (
+                    <Thread
+                      key={comment.id}
+                      noTitle
+                      // @ts-ignore
+                      thread={{
+                        content: comment.commentContent,
+                      }}
+                    />
+                  ))}
               </Div>
             </Div>
           </Div>
