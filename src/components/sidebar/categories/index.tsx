@@ -1,45 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CardContainer, CardContentContainer, CardTitle } from "../styles";
 import { CategoryContainer, CategoryIconContainer } from "./styles";
 
+import { firestore } from "@/services/firebase";
+import { Category } from "@/types/category";
+import { collection, getDocs } from "firebase/firestore/lite";
 import Image from "next/image";
-import { FaRegNewspaper } from "react-icons/fa";
+import Link from "next/link";
 
-const SidebarCategories: React.FC = () => {
+const SidebarCategories: React.FC<{ allCategories?: Array<Category> }> = ({
+  allCategories,
+}) => {
+  const [allCategoriesState, setAllCategories] = useState(allCategories ?? []);
+
+  useEffect(() => {
+    if (Array.isArray(allCategories) && allCategories?.length >= 1) return;
+
+    (async () => {
+      const allCategoriesSnapshot = await getDocs(
+        collection(firestore, "categories")
+      );
+      const categories = allCategoriesSnapshot.docs.map((value) => {
+        return {
+          id: value.id,
+          ...value.data(),
+        };
+      });
+      setAllCategories(categories as Array<Category>);
+    })();
+  }, []);
+
   return (
     <CardContainer>
       <CardTitle>Categories</CardTitle>
       <CardContentContainer>
-        <CategoryContainer>
-          <CategoryIconContainer iconColor="#EEA956">
-            <FaRegNewspaper color="#EEA956" size={40} />
-          </CategoryIconContainer>
-          <p>General</p>
-        </CategoryContainer>
-
-        <CategoryContainer>
-          <CategoryIconContainer iconColor="#78BA61">
-            <Image
-              src="/icons/minecraft-related-icon.svg"
-              width={34}
-              height={34}
-              alt=""
-            />
-          </CategoryIconContainer>
-          <p>Minecraft Related</p>
-        </CategoryContainer>
-
-        <CategoryContainer>
-          <CategoryIconContainer iconColor="#E59F5E">
-            <Image
-              src="/icons/staff-applications-icon.svg"
-              width={30}
-              height={30}
-              alt=""
-            />
-          </CategoryIconContainer>
-          <p>Staff Applications</p>
-        </CategoryContainer>
+        {allCategoriesState.map((category) => (
+          <Link key={category.id} href="/[categoryId]" as={`/${category.id}`}>
+            <CategoryContainer>
+              <CategoryIconContainer iconColor={category.iconColor}>
+                <Image
+                  src={`/icons/${category.name
+                    .toLowerCase()
+                    .replaceAll(" ", "-")}-icon.svg`}
+                  width={34}
+                  height={34}
+                  alt=""
+                />
+              </CategoryIconContainer>
+              <p>{category.name}</p>
+            </CategoryContainer>
+          </Link>
+        ))}
       </CardContentContainer>
     </CardContainer>
   );
