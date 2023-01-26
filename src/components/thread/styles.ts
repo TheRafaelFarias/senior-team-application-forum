@@ -34,3 +34,10 @@ export const ThreadContentContainer = styled.div`
   font-size: 0.825rem;
   font-weight: 400;
 `;
+
+export const ThreadNewCommentTitle = styled.h1`
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: center;
+  color: ${(props) => props.theme.primaryText};
+`;
