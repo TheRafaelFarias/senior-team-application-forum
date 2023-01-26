@@ -18,8 +18,8 @@ const Navbar: React.FC = () => {
 
   return (
     <NavbarContainer>
-      <NavbarSideContent>
-        <Link href="/">
+      <Link href="/">
+        <NavbarSideContent>
           <Image
             src="/logo.png"
             width={40}
@@ -27,8 +27,8 @@ const Navbar: React.FC = () => {
             alt="Junior Team Forums logo that has a gradient orange background with a white lighting in the center of it"
           />
           <NavbarWebsiteText>Junior Team Forums</NavbarWebsiteText>
-        </Link>
-      </NavbarSideContent>
+        </NavbarSideContent>
+      </Link>
 
       <NavbarSideContent>
         <NavbarButton
