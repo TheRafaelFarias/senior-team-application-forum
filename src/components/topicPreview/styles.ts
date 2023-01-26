@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export const TopicPreviewContainer = styled.div`
+export const TopicPreviewContainer = styled.button`
+  border: none;
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
