@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CardContainer, CardContentContainer, CardTitle } from "../styles";
 
+import { getLatestThreads } from "@/services/thread/getLatestThreads";
 import { Div } from "@/styles/globals";
+import { ThreadPreview } from "@/types/thread";
 import Image from "next/image";
 import {
   LatestThreadContainer,
@@ -9,11 +11,7 @@ import {
 } from "./styles";
 
 type LatestThreadProps = {
-  title?: string;
-  author?: {
-    name: string;
-    imageURL: string;
-  };
+  title: string;
 };
 
 const LatestThread: React.FC<LatestThreadProps> = (thread) => {
@@ -23,10 +21,7 @@ const LatestThread: React.FC<LatestThreadProps> = (thread) => {
         <Image src="/test-user-profile.png" alt="" fill />
       </LatestThreadUserImageContainer>
       <Div flexDirection="column" justifyContent="space-around">
-        <h3>
-          The 4-step SEO framework that led to a 1000% increase in traffic.
-          Let’s talk about blogging and SEO...
-        </h3>
+        <h3>{thread.title}</h3>
         <p>Rafael Farias</p>
       </Div>
     </LatestThreadContainer>
@@ -34,13 +29,22 @@ const LatestThread: React.FC<LatestThreadProps> = (thread) => {
 };
 
 const SidebarLatestThreads: React.FC = () => {
+  const [latestThreads, setLatestThreads] = useState<Array<ThreadPreview>>([]);
+
+  useEffect(() => {
+    (async () => {
+      const latestThreadsResponses = await getLatestThreads();
+      setLatestThreads(latestThreadsResponses);
+    })();
+  }, []);
+
   return (
     <CardContainer>
       <CardTitle>Latest threads</CardTitle>
       <CardContentContainer>
-        <LatestThread />
-        <LatestThread />
-        <LatestThread />
+        {latestThreads.map((thread) => (
+          <LatestThread key={thread.id} title={thread.title} />
+        ))}
       </CardContentContainer>
     </CardContainer>
   );
