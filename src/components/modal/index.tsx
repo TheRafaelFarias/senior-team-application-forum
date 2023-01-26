@@ -12,11 +12,12 @@ import { ModalWithBackgroundWrapper } from "./styles";
 const MODALS = {
   createNewThread: CreateNewThreadModal,
   createNewAccount: CreateNewAccountModal,
-  login: LoginModal
+  login: LoginModal,
 };
 
 interface ModalContextProps {
   changeCurrentModal: (modal: keyof typeof MODALS) => void;
+  closeModal: () => void;
 }
 
 export interface ModalProps {
@@ -37,13 +38,23 @@ const ModalProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const changeCurrentModal: ModalContextProps["changeCurrentModal"] = (
     modal
   ) => {
+    document.getElementsByTagName("html")[0].style.overflow = "hidden";
+    window.scrollTo({
+      top: 0
+    })
     setCurrentModal(modal);
+  };
+
+  const closeModal = () => {
+    document.getElementsByTagName("html")[0].style.overflow = "auto";
+    setCurrentModal(undefined);
   };
 
   return (
     <ModalContext.Provider
       value={{
         changeCurrentModal,
+        closeModal,
       }}
     >
       <>
@@ -54,7 +65,7 @@ const ModalProvider: React.FC<PropsWithChildren> = ({ children }) => {
               event.stopPropagation();
               event.nativeEvent.stopImmediatePropagation();
               event.preventDefault();
-              setCurrentModal(undefined);
+              closeModal();
             }}
           >
             {
