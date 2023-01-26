@@ -9,10 +9,15 @@ import {
 } from "@/components/modal/styles";
 import RichTextInput from "@/components/richtextinput";
 import { Div } from "@/styles/globals";
-import React from "react";
+import { useForm } from "react-hook-form";
 import { DropdownsContainer } from "../createNewAccount/styles";
 
+interface ThreadFormValues {
+  title: string;
+}
+
 const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
+  const { control, handleSubmit } = useForm<ThreadFormValues>();
   return (
     <ModalContainer onClick={defaultOnClick}>
       <ModalTitle>Let&apos;s create a new thread</ModalTitle>
@@ -29,7 +34,8 @@ const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
         />
       </DropdownsContainer>
       <Input
-        name="Title"
+        control={control}
+        name="title"
         placeholder="Title"
         secondaryPlaceholder="Enter thread title here"
       />
