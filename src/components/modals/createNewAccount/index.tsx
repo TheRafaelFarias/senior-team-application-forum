@@ -6,15 +6,36 @@ import {
   ModalTitle,
 } from "@/components/modal/styles";
 import React from "react";
+import { useForm } from "react-hook-form";
+
+interface CreateNewAccountFormValues {
+  email: string;
+  password: string;
+  repeatedPassword: string;
+}
 
 const CreateNewAccountModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
+  const { control, handleSubmit } = useForm<CreateNewAccountFormValues>();
+
+  const handleCreateNewAccountSubmit = async (
+    values: CreateNewAccountFormValues
+  ) => {
+    // TODO
+  };
+
   return (
     <ModalContainer onClick={defaultOnClick}>
       <ModalTitle>Create a new Account</ModalTitle>
-      <Input name="email" placeholder="Email" />
-      <Input name="password" placeholder="Password" />
-      <Input name="repeatedPassword" placeholder="Repeat password" />
-      <ModalButton>Submit</ModalButton>
+      <Input control={control} name="email" placeholder="Email" />
+      <Input control={control} name="password" placeholder="Password" />
+      <Input
+        control={control}
+        name="repeatedPassword"
+        placeholder="Repeat password"
+      />
+      <ModalButton onClick={handleSubmit(handleCreateNewAccountSubmit)}>
+        Submit
+      </ModalButton>
     </ModalContainer>
   );
 };
