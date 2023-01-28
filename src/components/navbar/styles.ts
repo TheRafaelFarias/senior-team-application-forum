@@ -48,3 +48,13 @@ export const NavbarUsername = styled.p`
     display: none;
   }
 `;
+
+export const NavbarMobileButton = styled(NavbarButton)`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
