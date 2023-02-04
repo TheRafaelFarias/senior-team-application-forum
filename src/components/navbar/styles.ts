@@ -23,6 +23,9 @@ export const NavbarWebsiteText = styled.h1`
 `;
 
 export const NavbarButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   outline: none;
   width: 3rem;

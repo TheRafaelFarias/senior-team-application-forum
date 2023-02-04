@@ -32,6 +32,9 @@ export const ModalTitle = styled.h1`
 `;
 
 export const ModalButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   border: none;
   width: 100%;
   height: 100%;
@@ -39,8 +42,9 @@ export const ModalButton = styled.button`
   font-weight: 600;
   max-width: 10rem;
   transition: 200ms;
-  max-height: 1.625rem;
+  max-height: 1.825rem;
   border-radius: 0.375rem;
+  padding: 0.225rem 0px;
   color: ${(props) => props.theme.primaryText};
   background-color: ${(props) => props.theme.primary};
 
