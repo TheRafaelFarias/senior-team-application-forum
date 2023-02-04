@@ -7,7 +7,9 @@ import "@/components/richtextinput/styles.css";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import ModalProvider from "@/components/modal";
+import { auth } from "@/services/firebase";
 import { Source_Sans_Pro } from "@next/font/google";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { ToastContainer } from "react-toastify";
 
 export const SourceSansPro = Source_Sans_Pro({
@@ -16,6 +18,10 @@ export const SourceSansPro = Source_Sans_Pro({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [_, loading] = useAuthState(auth);
+
+  if (loading) return <></>;
+
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
