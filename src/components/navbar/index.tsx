@@ -1,8 +1,11 @@
 import { defaultTheme } from "@/config/theme";
+import { auth } from "@/services/firebase";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { IoMdCreate, IoMdMenu } from "react-icons/io";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { IoIosLogIn, IoIosLogOut, IoMdCreate, IoMdMenu } from "react-icons/io";
+import { logout } from "../../services/auth/logout";
 import { useModal } from "../modal/hooks/useModal";
 import UserImage from "../userImage";
 import {
@@ -17,6 +20,8 @@ import {
 
 const Navbar: React.FC = () => {
   const { changeCurrentModal } = useModal();
+
+  const [user] = useAuthState(auth);
 
   const handleSidebarOpenButton = () => {
     const sidebarElementAttribute = document
@@ -55,10 +60,21 @@ const Navbar: React.FC = () => {
         <NavbarMobileButton onClick={handleSidebarOpenButton}>
           <IoMdMenu size={30} color={defaultTheme.tertiaryText} />
         </NavbarMobileButton>
-        <NavbarUserInformationsContainer>
-          <UserImage />
-          <NavbarUsername>Rafael Farias</NavbarUsername>
-        </NavbarUserInformationsContainer>
+        {user === null ? (
+          <NavbarButton onClick={() => changeCurrentModal("createNewAccount")}>
+            <IoIosLogIn size={25} />
+          </NavbarButton>
+        ) : (
+          <>
+            <NavbarUserInformationsContainer>
+              <UserImage />
+              <NavbarUsername>{user?.displayName}</NavbarUsername>
+            </NavbarUserInformationsContainer>
+            <NavbarButton onClick={logout}>
+              <IoIosLogOut size={25} />
+            </NavbarButton>
+          </>
+        )}
       </NavbarSideContent>
     </NavbarContainer>
   );
