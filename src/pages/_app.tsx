@@ -4,9 +4,11 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 
 import "@/components/richtextinput/styles.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 import ModalProvider from "@/components/modal";
 import { Source_Sans_Pro } from "@next/font/google";
+import { ToastContainer } from "react-toastify";
 
 export const SourceSansPro = Source_Sans_Pro({
   subsets: ["latin"],
@@ -21,6 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ModalProvider>
           <Component {...pageProps} />
         </ModalProvider>
+        <ToastContainer />
       </ThemeProvider>
     </>
   );
