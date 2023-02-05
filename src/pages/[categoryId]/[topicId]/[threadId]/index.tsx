@@ -7,6 +7,7 @@ import RichTextInput from "@/components/richtextinput";
 import Sidebar from "@/components/sidebar";
 import Thread from "@/components/thread";
 import { ThreadNewCommentTitle } from "@/components/thread/styles";
+import { auth } from "@/services/firebase";
 import { addCommentToAThread } from "@/services/thread/addCommentToAThread";
 import { getSpecificThreadWithCategoryAndTopicInformations } from "@/services/thread/getSpecificThreadWithCategoryAndTopicInformations";
 import { Div } from "@/styles/globals";
@@ -20,11 +21,13 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const ThreadInformations = ({
   thread,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
+  const [user] = useAuthState(auth);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
@@ -40,7 +43,8 @@ const ThreadInformations = ({
           topicId: thread.topic.id,
           threadId: thread.id,
         },
-        content
+        content,
+        user!.uid
       );
 
       router.reload();

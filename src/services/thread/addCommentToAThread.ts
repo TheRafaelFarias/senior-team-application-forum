@@ -7,7 +7,8 @@ export async function addCommentToAThread(
     topicId: string;
     threadId: string;
   },
-  commentContent: string
+  commentContent: string,
+  authorId: string
 ) {
   try {
     return await addDoc(
@@ -23,7 +24,8 @@ export async function addCommentToAThread(
       ),
       {
         commentContent,
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        authorId,
       }
     );
   } catch (error) {
