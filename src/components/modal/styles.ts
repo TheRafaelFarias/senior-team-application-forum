@@ -10,6 +10,7 @@ export const ModalWithBackgroundWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
+  z-index: 999;
 `;
 
 export const ModalContainer = styled.div`
