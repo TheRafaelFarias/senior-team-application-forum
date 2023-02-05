@@ -92,17 +92,23 @@ export const getServerSideProps = async (
 ) => {
   const { categoryId, topicId } = context.query;
 
-  const topicInformation =
-    await getSpecificTopicWithCategoryAndAllThreadsPreview(
-      categoryId?.toString()!,
-      topicId?.toString()!
-    );
+  try {
+    const topicInformation =
+      await getSpecificTopicWithCategoryAndAllThreadsPreview(
+        categoryId?.toString()!,
+        topicId?.toString()!
+      );
 
-  return {
-    props: {
-      topic: topicInformation,
-    },
-  };
+    return {
+      props: {
+        topic: topicInformation,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default TopicInformations;
