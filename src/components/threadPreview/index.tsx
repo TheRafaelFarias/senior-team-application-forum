@@ -41,7 +41,7 @@ const ThreadPreview: React.FC<{
           justifyContent="space-between"
         >
           <ThreadPreviewUserInformationContainer>
-            <h3>Rafael Farias</h3>
+            <h3>{threadPreview.author.displayName}</h3>
             <div></div>
             <p>{getTimeAgoDate(threadPreview.createdAt)}</p>
           </ThreadPreviewUserInformationContainer>
