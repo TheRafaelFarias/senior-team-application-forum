@@ -45,17 +45,6 @@ const ThreadPreview: React.FC<{
             <div></div>
             <p>{getTimeAgoDate(threadPreview.createdAt)}</p>
           </ThreadPreviewUserInformationContainer>
-          <Div flexDirection="row" gapX={2}>
-            <ThreadPreviewInformationText>
-              244,564 Views
-            </ThreadPreviewInformationText>
-            <ThreadPreviewInformationText>
-              244,564 Views
-            </ThreadPreviewInformationText>
-            <ThreadPreviewInformationText>
-              244,564 Views
-            </ThreadPreviewInformationText>
-          </Div>
         </Div>
       </Div>
     </ThreadPreviewContainer>
