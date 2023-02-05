@@ -43,7 +43,7 @@ const ThreadPreview: React.FC<{
           <ThreadPreviewUserInformationContainer>
             <h3>Rafael Farias</h3>
             <div></div>
-            <p>3 days ago</p>
+            <p>{getTimeAgoDate(threadPreview.createdAt)}</p>
           </ThreadPreviewUserInformationContainer>
           <Div flexDirection="row" gapX={2}>
             <ThreadPreviewInformationText>

@@ -13,12 +13,14 @@ const Thread: React.FC<{ thread: Thread; noTitle?: boolean }> = ({
   noTitle,
 }) => {
   const threadContent = convertFromRaw(JSON.parse(thread.content as any));
+  const threadCreatedDate = new Date(thread.createdAt);
+
   return (
     <ThreadContainer>
       <ThreadInformationsDetails>
         <UserImage />
         {!noTitle && <h1>{thread.title}</h1>}
-        <p>2 hours ago</p>
+        <p>{getTimeAgoDate(threadCreatedDate)}</p>
       </ThreadInformationsDetails>
       <ThreadContentContainer>
         <Editor
