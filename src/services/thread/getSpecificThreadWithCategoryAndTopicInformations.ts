@@ -23,10 +23,16 @@ export async function getSpecificThreadWithCategoryAndTopicInformations(
 ) {
   const categoryRef = doc(firestore, "categories", categoryId);
   const categoryDoc = await getDoc(categoryRef);
+
+  if (!categoryDoc.exists()) throw new Error("This category was not found");
+
   const category = { ...categoryDoc.data(), id: categoryId } as Category;
 
   const topicRef = doc(firestore, "categories", categoryId, "topics", topicId);
   const topicDoc = await getDoc(topicRef);
+
+  if (!topicDoc.exists()) throw new Error("This topic was not found");
+
   const topic = { ...topicDoc.data(), id: topicDoc.id } as TopicWithoutThread;
 
   const threadRef = doc(
@@ -39,6 +45,8 @@ export async function getSpecificThreadWithCategoryAndTopicInformations(
     threadId
   );
   const threadDoc = await getDoc(threadRef);
+
+  if (!threadDoc.exists()) throw new Error("This thread was not found");
 
   const threadData = threadDoc.data() as Thread;
   const authorUserRef = doc(firestore, "users", threadData.authorId);

@@ -181,18 +181,25 @@ export const getServerSideProps = async (
 ) => {
   const { categoryId, topicId, threadId } = context.query;
 
-  const threadInformations =
-    await getSpecificThreadWithCategoryAndTopicInformations(
-      categoryId?.toString()!,
-      topicId?.toString()!,
-      threadId?.toString()!
-    );
+  try {
+    const threadInformations =
+      await getSpecificThreadWithCategoryAndTopicInformations(
+        categoryId?.toString()!,
+        topicId?.toString()!,
+        threadId?.toString()!
+      );
 
-  return {
-    props: {
-      thread: threadInformations,
-    },
-  };
+    return {
+      props: {
+        thread: threadInformations,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default ThreadInformations;
