@@ -49,17 +49,24 @@ export async function getCategoryLatestThreads(categoryId: string) {
 
   const latestThreadsDocs = await getDocs(latestThreadsQuery);
 
-  const latestThreads = latestThreadsDocs.docs.map((value) => {
-    return {
-      id: value.id,
-      ...value.data(),
-    };
-  });
+  const latestThreads = await Promise.all(
+    latestThreadsDocs.docs.map(async (value) => {
+      const threadData = value.data() as Omit<ThreadPreview, "id">;
+      const authorRef = doc(firestore, "users", threadData.authorId);
+      const authorDoc = await getDoc(authorRef);
 
-  return latestThreads as Array<
-    ThreadPreview & {
+      return {
+        id: value.id,
+        author: authorDoc.data(),
+        ...threadData,
+      };
+    })
+  );
+
+  return latestThreads as unknown as Array<
+    ThreadPreviewWithAuthor & {
       category: Category;
-      topic: Topic<Thread>;
+      topic: TopicWithoutThread;
     }
   >;
 }
