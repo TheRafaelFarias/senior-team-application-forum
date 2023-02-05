@@ -1,8 +1,10 @@
 import { Category } from "@/types/category";
-import { Thread, ThreadPreview } from "@/types/thread";
-import { Topic } from "@/types/topic";
+import { ThreadPreview, ThreadPreviewWithAuthor } from "@/types/thread";
+import { TopicWithoutThread } from "@/types/topic";
 import {
   collectionGroup,
+  doc,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -20,14 +22,21 @@ export async function getLatestThreads() {
 
   const latestThreadsDocs = await getDocs(latestThreadsQuery);
 
-  const latestThreads = latestThreadsDocs.docs.map((value) => {
-    return {
-      id: value.id,
-      ...value.data(),
-    };
-  });
+  const latestThreads = await Promise.all(
+    latestThreadsDocs.docs.map(async (value) => {
+      const threadData = value.data() as Omit<ThreadPreview, "id">;
+      const authorRef = doc(firestore, "users", threadData.authorId);
+      const authorDoc = await getDoc(authorRef);
 
-  return latestThreads as Array<ThreadPreview>;
+      return {
+        id: value.id,
+        author: authorDoc.data(),
+        ...threadData,
+      };
+    })
+  );
+
+  return latestThreads as Array<ThreadPreviewWithAuthor>;
 }
 
 export async function getCategoryLatestThreads(categoryId: string) {

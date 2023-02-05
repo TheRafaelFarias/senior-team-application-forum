@@ -33,5 +33,6 @@ export const LatestThreadUserImageContainer = styled.div`
   height: 3rem;
   min-height: 3rem;
   border-radius: 0.375rem;
+  overflow: hidden;
   background-color: ${(props) => props.theme.beige};
 `;
