@@ -9,6 +9,7 @@ import {
 } from "@/components/modal/styles";
 import RichTextInput from "@/components/richtextinput";
 import { getAllCategoriesWithTopics } from "@/services/category/getAllCategoriesWithTopics";
+import { auth } from "@/services/firebase";
 import { createNewThread } from "@/services/thread/createNewThread";
 import { Div } from "@/styles/globals";
 import { Category } from "@/types/category";
@@ -16,6 +17,7 @@ import { TopicWithoutThread } from "@/types/topic";
 import { convertToRaw, EditorState } from "draft-js";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { DropdownsContainer } from "../createNewAccount/styles";
 
@@ -25,6 +27,7 @@ interface ThreadFormValues {
 
 const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
   const { control, handleSubmit } = useForm<ThreadFormValues>();
+  const [user] = useAuthState(auth);
   const router = useRouter();
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -56,15 +59,16 @@ const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
     };
 
     try {
-      const threadDocument = await createNewThread(thread);
-      router.replace({
-        pathname: "/[categoryId]/[topicId]/[threadId]",
-        query: {
-          categoryId: thread.category.id,
-          topicId: thread.topic.id,
-          threadId: threadDocument?.id,
-        },
-      });
+      const threadDocument = await createNewThread(thread, user!);
+      router
+        .replace({
+          pathname: "/[categoryId]/[topicId]/[threadId]",
+          query: {
+            categoryId: thread.category.id,
+            topicId: thread.topic.id,
+            threadId: threadDocument?.id,
+          },
+        })
     } catch (error) {}
   };
 
@@ -97,7 +101,7 @@ const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
           }
           onClickOption={(topicName) => {
             const topic = categoriesWithTopics
-              .filter((cateogry) => cateogry.name == selectedCategory!.name)[0]
+            .filter((cateogry) => cateogry.name == selectedCategory!.name)[0]
               .topics.filter((topic) => topic.name === topicName);
             setSelectedTopic(topic[0]);
           }}
