@@ -2,6 +2,7 @@ import {
   BreadcrumbItem,
   BreadcrumbItemContainer,
 } from "@/components/breadcrumb/styles";
+import { useModal } from "@/components/modal/hooks/useModal";
 import Navbar from "@/components/navbar";
 import RichTextInput from "@/components/richtextinput";
 import Sidebar from "@/components/sidebar";
@@ -22,11 +23,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 
 const ThreadInformations = ({
   thread,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
+  const { changeCurrentModal } = useModal();
   const [user] = useAuthState(auth);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -49,6 +52,22 @@ const ThreadInformations = ({
 
       router.reload();
     } catch (error) {}
+  };
+
+  const openCommentEditorHandler = () => {
+    if (user === null) {
+      toast(
+        "Log in to your Google account to create a comment on this thread",
+        {
+          position: "top-right",
+          type: "error",
+        }
+      );
+      changeCurrentModal("createNewAccount");
+      return;
+    }
+
+    setIsEditorOpen(true);
   };
 
   return (
@@ -105,9 +124,7 @@ const ThreadInformations = ({
             <Div flexDirection="column" gapY={0.5}>
               <Div flexDirection="column" gapY={1.875}>
                 <Thread thread={thread} />
-                <AddNewThreadCommentButton
-                  onClick={() => setIsEditorOpen(true)}
-                >
+                <AddNewThreadCommentButton onClick={openCommentEditorHandler}>
                   Add a new comment
                 </AddNewThreadCommentButton>
               </Div>

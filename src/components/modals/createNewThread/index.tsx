@@ -2,6 +2,7 @@ import Dropdown from "@/components/dropdown";
 import Input from "@/components/input";
 import { InputPlaceholder } from "@/components/input/styles";
 import { ModalProps } from "@/components/modal";
+import { useModal } from "@/components/modal/hooks/useModal";
 import {
   ModalButton,
   ModalContainer,
@@ -19,6 +20,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { DropdownsContainer } from "../createNewAccount/styles";
 
 interface ThreadFormValues {
@@ -28,6 +30,7 @@ interface ThreadFormValues {
 const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
   const { control, handleSubmit } = useForm<ThreadFormValues>();
   const [user] = useAuthState(auth);
+  const { closeModal, changeCurrentModal } = useModal();
   const router = useRouter();
 
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -69,8 +72,23 @@ const CreateNewThreadModal: React.FC<ModalProps> = ({ defaultOnClick }) => {
             threadId: threadDocument?.id,
           },
         })
+        .then(() => {
+          closeModal();
+        });
     } catch (error) {}
   };
+
+  useEffect(() => {
+    if (user === null) {
+      toast("Log in to your Google account to create a new thread", {
+        position: "top-right",
+        type: "error",
+      });
+      closeModal();
+      changeCurrentModal("createNewAccount");
+      return;
+    }
+  }, [user]);
 
   return (
     <ModalContainer onClick={defaultOnClick}>
