@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ModalProvider>
           <Component {...pageProps} />
         </ModalProvider>
-        <ToastContainer />
+        <ToastContainer theme="dark" />
       </ThemeProvider>
     </>
   );
