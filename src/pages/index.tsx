@@ -7,7 +7,7 @@ import { ModalButton } from "@/components/modal/styles";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import ThreadPreview from "@/components/threadPreview";
-import { auth, firestore } from "@/services/firebase";
+import { firestore } from "@/services/firebase";
 import { getCategoryLatestThreads } from "@/services/thread/getLatestThreads";
 import { Div } from "@/styles/globals";
 import { CreateNewThreadOrCommentText } from "@/styles/thread";
@@ -16,16 +16,11 @@ import { collection, getDocs } from "firebase/firestore/lite";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 const Home = ({
   allCategories,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { changeCurrentModal } = useModal();
-
-  const [user, loading, error] = useAuthState(auth);
-
-  console.log(user);
 
   return (
     <>
