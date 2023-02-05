@@ -1,10 +1,11 @@
 import { FirebaseError } from "firebase/app";
 import { signInWithPopup } from "firebase/auth";
 import {
-  addDoc,
   collection,
+  doc,
   getDocs,
   query,
+  setDoc,
   where,
 } from "firebase/firestore/lite";
 import { toast } from "react-toastify";
@@ -21,11 +22,12 @@ export async function signInWithGoogle(closeModal?: () => void) {
     );
     const docs = await getDocs(foundUsersQuery);
     if (docs.docs.length === 0) {
-      await addDoc(collection(firestore, "users"), {
+      await setDoc(doc(firestore, "users", user.uid), {
         uid: user.uid,
-        name: user.displayName,
+        displayName: user.displayName,
         authProvider: "google",
         email: user.email,
+        photoURL: user.photoURL,
       });
     }
   } catch (err) {
