@@ -1,7 +1,5 @@
-import { auth } from "@/services/firebase";
 import Image from "next/image";
 import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import {
   UserImageWithBorderContainer,
   UserImageWithBorderWrapper,
@@ -9,16 +7,20 @@ import {
 
 interface UserImageProps {
   type?: "normal" | "circle";
+  photoUrl: string;
 }
 
-const UserImage: React.FC<UserImageProps> = ({ type = "normal" }) => {
-  const [user] = useAuthState(auth);
-
+const UserImage: React.FC<UserImageProps> = ({ type = "normal", photoUrl }) => {
   if (type === "normal")
     return (
       <UserImageWithBorderWrapper>
         <UserImageWithBorderContainer>
-          <Image src={user?.photoURL ?? ""} fill alt="" />
+          <Image
+            referrerPolicy="no-referrer"
+            src={photoUrl ?? ""}
+            fill
+            alt=""
+          />
         </UserImageWithBorderContainer>
       </UserImageWithBorderWrapper>
     );

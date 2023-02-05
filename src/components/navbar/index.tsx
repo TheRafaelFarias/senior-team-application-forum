@@ -67,8 +67,8 @@ const Navbar: React.FC = () => {
         ) : (
           <>
             <NavbarUserInformationsContainer>
-              <UserImage />
-              <NavbarUsername>{user?.displayName}</NavbarUsername>
+              <UserImage photoUrl={user!.photoURL!} />
+              <NavbarUsername>{user!.displayName}</NavbarUsername>
             </NavbarUserInformationsContainer>
             <NavbarButton onClick={logout}>
               <IoIosLogOut size={25} />

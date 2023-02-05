@@ -34,6 +34,7 @@ export const ThreadPreviewUserImageWrapper = styled.div`
   min-width: 5rem;
   height: 5rem;
   min-height: 5rem;
+  overflow: hidden;
   background-color: ${(props) => props.theme.beige};
   border-radius: 0.625rem;
 `;
@@ -59,10 +60,6 @@ export const ThreadPreviewUserInformationContainer = styled(Div).attrs({
 
   & > p {
     color: ${(props) => props.theme.tertiaryText};
-  }
-
-  @media (max-width: 768px) {
-    display: none;
   }
 `;
 

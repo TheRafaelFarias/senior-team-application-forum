@@ -1,11 +1,11 @@
+import { getTimeAgoDate } from "@/helpers/date";
 import { Div } from "@/styles/globals";
-import { ThreadPreview as ThreadPreviewType } from "@/types/thread";
+import { ThreadPreviewWithAuthor as ThreadPreviewType } from "@/types/thread";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 import {
   ThreadPreviewContainer,
-  ThreadPreviewInformationText,
   ThreadPreviewUserImageWrapper,
   ThreadPreviewUserInformationContainer,
 } from "./styles";
@@ -31,7 +31,7 @@ const ThreadPreview: React.FC<{
       }}
     >
       <ThreadPreviewUserImageWrapper>
-        <Image src="/test-user-profile.png" fill alt="" />
+        <Image src={threadPreview.author.photoURL!} fill alt="" />
       </ThreadPreviewUserImageWrapper>
       <Div flexDirection="column" justifyContent="space-around">
         <h1>{threadPreview.title}</h1>
