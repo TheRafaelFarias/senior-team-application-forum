@@ -1,6 +1,10 @@
 import { Category } from "@/types/category";
-import { ThreadComment } from "@/types/comment";
-import { Thread, ThreadWithCategoryAndTopicNames } from "@/types/thread";
+import { ThreadComment, ThreadCommentWithAuthorObject } from "@/types/comment";
+import {
+  Thread,
+  ThreadWithCategoryAndTopicNames,
+  ThreadWithUser,
+} from "@/types/thread";
 import { TopicWithoutThread } from "@/types/topic";
 import {
   collection,
@@ -36,6 +40,11 @@ export async function getSpecificThreadWithCategoryAndTopicInformations(
   );
   const threadDoc = await getDoc(threadRef);
 
+  const threadData = threadDoc.data() as Thread;
+  const authorUserRef = doc(firestore, "users", threadData.authorId);
+  const authorUserDoc = await getDoc(authorUserRef);
+  const authorUser = authorUserDoc.data();
+
   const commentsQuery = query(
     collection(
       firestore,
@@ -50,19 +59,28 @@ export async function getSpecificThreadWithCategoryAndTopicInformations(
     orderBy("createdAt", "asc")
   );
   const commentsDocument = await getDocs(commentsQuery);
-  const threadComments = commentsDocument.docs.map((document) => {
-    const comment = document.data();
-    return {
-      id: document.id,
-      ...comment,
-    };
-  }) as Array<ThreadComment>;
+  const threadComments = (await Promise.all(
+    commentsDocument.docs.map(async (document) => {
+      const comment = document.data() as Omit<ThreadComment, "id">;
+
+      const commentsAuthorRef = doc(firestore, "users", comment.authorId);
+      const authorUserDoc = await getDoc(commentsAuthorRef);
+      const authorUser = authorUserDoc.data();
+
+      return {
+        id: document.id,
+        ...comment,
+        author: authorUser,
+      };
+    })
+  )) as Array<ThreadCommentWithAuthorObject>;
 
   const thread = {
     ...threadDoc.data(),
     id: threadDoc.id,
     comments: threadComments,
-  } as Thread;
+    author: authorUser,
+  } as ThreadWithUser;
 
   return {
     category,

@@ -16,6 +16,7 @@ import {
   AddNewThreadCommentButton,
   ThreadAndCommentsDivider,
 } from "@/styles/thread";
+import { ThreadCommentWithAuthorObject } from "@/types/comment";
 import { convertToRaw, EditorState } from "draft-js";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
@@ -159,6 +160,9 @@ const ThreadInformations = ({
                       noTitle
                       // @ts-ignore
                       thread={{
+                        createdAt: comment.createdAt,
+                        author: (comment as ThreadCommentWithAuthorObject)
+                          .author,
                         content: comment.commentContent,
                       }}
                     />
