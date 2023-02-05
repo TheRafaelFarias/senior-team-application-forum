@@ -65,15 +65,21 @@ export const getServerSideProps = async (
       props: {},
     };
 
-  const categoryInformation = await getCategoryWithAllTopics(
-    categoryId?.toString()!
-  );
+  try {
+    const categoryInformation = await getCategoryWithAllTopics(
+      categoryId?.toString()!
+    );
 
-  return {
-    props: {
-      category: categoryInformation,
-    },
-  };
+    return {
+      props: {
+        category: categoryInformation,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default CategoryInformations;
