@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import ModalProvider from "@/components/modal";
 import { auth } from "@/services/firebase";
 import { Source_Sans_Pro } from "@next/font/google";
+import Head from "next/head";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ToastContainer } from "react-toastify";
 
@@ -24,6 +25,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <Head>
+        <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
+      </Head>
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyle fontFamilySrc={SourceSansPro.style.fontFamily} />
         <ModalProvider>
